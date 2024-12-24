@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    let watchId, startTime, totalDistance = 0, lastPosition = null;
+    let watchId, startTime, totalDistance = 0, lastPosition = null, timeInterval;
     const status = document.getElementById('status');
     const timeDisplay = document.getElementById('time');
     const distanceDisplay = document.getElementById('distance');
@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function startTracking() {
+        startTime = new Date();
+        console.log('Start time set:', startTime);
         if (navigator.permissions) {
             navigator.permissions.query({name:'geolocation'}).then(result => {
                 if (result.state === 'granted') {
@@ -40,7 +42,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function startGPS() {
-        startTime = new Date();
+        console.log('GPS started');
         watchId = navigator.geolocation.watchPosition(updatePosition, showError, {
             enableHighAccuracy: true,
             timeout: 15000,
@@ -51,6 +53,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         stopBtn.disabled = false;
         status.style.display = 'block';
         status.style.animation = 'blink 1s infinite';
+        timeInterval = setInterval(updateTime, 1000); // Update time every second
     }
 
     function updatePosition(position) {
@@ -63,7 +66,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
         lastPosition = position.coords;
         updateGPSSignal(position.coords.accuracy);
-        updateTime();
     }
 
     function calculateDistance(pos1, pos2) {
@@ -129,6 +131,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         pauseBtn.disabled = true;
         startBtn.disabled = false;
         status.style.animation = 'none';
+        clearInterval(timeInterval);
     }
 
     function stopTracking() {
@@ -158,5 +161,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         stopBtn.disabled = true;
         status.style.display = 'none';
         status.style.animation = 'none';
+        clearInterval(timeInterval);
     }
 });
