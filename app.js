@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function startTracking() {
-        startTime = new Date();
+        startTime = new Date(); // Set start time here
         console.log('Start time set:', startTime);
         if (navigator.permissions) {
             navigator.permissions.query({name:'geolocation'}).then(result => {
@@ -55,6 +55,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         status.style.animation = 'blink 1s infinite';
         timeInterval = setInterval(updateTime, 1000); // Update time every second
     }
+
+    // ... rest of the code remains unchanged ...
+});
 
     function updatePosition(position) {
         if (lastPosition) {
