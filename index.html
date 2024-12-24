@@ -4,21 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Run Tracker</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="app">
-        <div id="gps-signal">
-            <div id="gps-signal-text">GPS Signal: Unknown</div>
+    <div class="container">
+        <div id="gps-indicator" class="gps-indicator"></div>
+        <div id="tracking" class="tracking hidden">Tracking Run...</div>
+        
+        <div class="metrics">
+            <div class="metric-box">
+                <div id="distance" class="value">0.00</div>
+                <div class="label">MILES</div>
+            </div>
+            <div class="metric-box">
+                <div id="time" class="value">00:00:00</div>
+                <div class="label">TIME</div>
+            </div>
         </div>
-        <div id="time" class="big-text">00:00:00</div>
-        <div id="distance" class="big-text">0.00 mi</div>
-        <div id="status">Tracking Run...</div>
-        <div id="controls">
-            <button id="start">Start</button>
-            <button id="pause" disabled>Pause</button>
-            <button id="stop" disabled>Stop</button>
+
+        <div class="controls">
+            <button id="startBtn" class="btn start">Start</button>
+            <button id="pauseBtn" class="btn pause hidden">Pause</button>
+            <button id="stopBtn" class="btn stop hidden">Stop</button>
         </div>
     </div>
     <script src="app.js"></script>
