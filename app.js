@@ -7,14 +7,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const pauseBtn = document.getElementById('pause');
     const stopBtn = document.getElementById('stop');
     const gpsSignal = document.getElementById('gps-signal');
+    const gpsSignalText = document.getElementById('gps-signal-text');
 
     // Check for geolocation support
     if ("geolocation" in navigator) {
         startBtn.addEventListener('click', startTracking);
         pauseBtn.addEventListener('click', pauseTracking);
         stopBtn.addEventListener('click', stopTracking);
+        navigator.geolocation.getCurrentPosition(showGPSStrength, showError, {enableHighAccuracy: true});
     } else {
         alert('Geolocation is not supported by your browser');
+    }
+
+    function showGPSStrength(position) {
+        updateGPSSignal(position.coords.accuracy);
     }
 
     function startTracking() {
@@ -45,15 +51,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
         stopBtn.disabled = false;
         status.style.display = 'block';
         status.style.animation = 'blink 1s infinite';
-        gpsSignal.style.display = 'block';
     }
 
     function updatePosition(position) {
         if (lastPosition) {
             const distance = calculateDistance(lastPosition, position.coords);
-            if (distance < 1000) { // Filter out impossible speeds
+            if (distance < 1609.34) { // Filter out impossible speeds (1 mile in meters)
                 totalDistance += distance;
-                distanceDisplay.textContent = (totalDistance / 1000).toFixed(2) + ' km';
+                distanceDisplay.textContent = (totalDistance / 1609.34).toFixed(2) + ' mi';
             }
         }
         lastPosition = position.coords;
@@ -80,6 +85,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         let signalStrength = 100 - Math.min(accuracy, 100);
         gpsSignal.style.width = `${signalStrength}%`;
         gpsSignal.style.backgroundColor = `hsl(${signalStrength * 1.2}, 100%, 50%)`;
+        if (signalStrength >= 80) {
+            gpsSignalText.textContent = 'GPS Signal: Excellent';
+        } else if (signalStrength >= 60) {
+            gpsSignalText.textContent = 'GPS Signal: Good';
+        } else if (signalStrength >= 40) {
+            gpsSignalText.textContent = 'GPS Signal: Fair';
+        } else if (signalStrength >= 20) {
+            gpsSignalText.textContent = 'GPS Signal: Poor';
+        } else {
+            gpsSignalText.textContent = 'GPS Signal: Weak';
+        }
     }
 
     function updateTime() {
@@ -119,7 +135,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         navigator.geolocation.clearWatch(watchId);
         const endTime = new Date();
         const runData = {
-            distance: totalDistance / 1000,
+            distance: totalDistance / 1609.34,
             time: (endTime - startTime) / 1000,
             startDateTime: startTime.toISOString()
         };
@@ -136,12 +152,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         totalDistance = 0;
         lastPosition = null;
         timeDisplay.textContent = '00:00:00';
-        distanceDisplay.textContent = '0.00 km';
+        distanceDisplay.textContent = '0.00 mi';
         startBtn.disabled = false;
         pauseBtn.disabled = true;
         stopBtn.disabled = true;
         status.style.display = 'none';
         status.style.animation = 'none';
-        gpsSignal.style.display = 'none';
     }
 });
