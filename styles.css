@@ -24,11 +24,12 @@ body {
     margin: 0 auto 20px;
     border: 1px solid #333;
     border-radius: 5px;
+    display: none;
 }
 
 #status {
     font-size: 1.2em;
-    animation: blink 1s infinite;
+    display: none;
 }
 
 @keyframes blink {
