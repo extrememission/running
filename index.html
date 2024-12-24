@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div id="app">
+        <div id="gps-signal"></div>
+        <div id="time" class="big-text">00:00:00</div>
+        <div id="distance" class="big-text">0.00 km</div>
+        <div id="status">Tracking Run...</div>
+        <div id="controls">
+            <button id="start">Start</button>
+            <button id="pause" disabled>Pause</button>
+            <button id="stop" disabled>Stop</button>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
