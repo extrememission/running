@@ -44,6 +44,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         pauseBtn.disabled = false;
         stopBtn.disabled = false;
         status.style.display = 'block';
+        status.style.animation = 'blink 1s infinite';
+        gpsSignal.style.display = 'block';
     }
 
     function updatePosition(position) {
@@ -56,6 +58,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
         lastPosition = position.coords;
         updateGPSSignal(position.coords.accuracy);
+        updateTime();
     }
 
     function calculateDistance(pos1, pos2) {
@@ -79,6 +82,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
         gpsSignal.style.backgroundColor = `hsl(${signalStrength * 1.2}, 100%, 50%)`;
     }
 
+    function updateTime() {
+        const currentTime = new Date();
+        const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+        const hours = Math.floor(elapsedTime / 3600);
+        const minutes = Math.floor((elapsedTime % 3600) / 60);
+        const seconds = elapsedTime % 60;
+        timeDisplay.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
     function showError(error) {
         switch(error.code) {
             case error.PERMISSION_DENIED:
@@ -100,6 +112,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         navigator.geolocation.clearWatch(watchId);
         pauseBtn.disabled = true;
         startBtn.disabled = false;
+        status.style.animation = 'none';
     }
 
     function stopTracking() {
@@ -128,5 +141,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         pauseBtn.disabled = true;
         stopBtn.disabled = true;
         status.style.display = 'none';
+        status.style.animation = 'none';
+        gpsSignal.style.display = 'none';
     }
 });
