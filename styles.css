@@ -1,79 +1,94 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #1a1a1a;
-    color: #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+:root {
+    --gps-none: #ff0000;
+    --gps-weak: #ff4500;
+    --gps-medium: #ffa500;
+    --gps-good: #90ee90;
+    --gps-excellent: #00ff00;
 }
 
-#app {
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.gps-indicator {
+    width: 80%;
+    height: 4px;
+    background: var(--gps-none);
+    border-radius: 2px;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px currentColor;
+}
+
+.tracking {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    animation: blink 1s infinite;
+}
+
+.metrics {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+}
+
+.metric-box {
     text-align: center;
 }
 
-.big-text {
-    font-size: 3em;
-    margin: 10px 0;
+.value {
+    font-size: 4rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
 
-#gps-signal {
-    width: 100px;
-    height: 20px;
-    margin: 0 auto 20px;
-    border: 1px solid #333;
-    border-radius: 5px;
-    position: relative;
+.label {
+    font-size: 1rem;
+    opacity: 0.7;
+    letter-spacing: 2px;
 }
 
-#gps-signal-text {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.8em;
-    color: #e0e0e0;
-    white-space: nowrap; /* Ensure single line */
+.controls {
+    margin-bottom: 40px;
+    display: flex;
+    gap: 20px;
 }
 
-#status {
-    font-size: 1.2em;
+.btn {
+    padding: 15px 40px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.start { background: #00ff00; color: #000; }
+.pause { background: #ffa500; color: #000; }
+.stop { background: #ff0000; color: #fff; }
+
+.hidden {
     display: none;
 }
 
 @keyframes blink {
-    0% { opacity: 1; }
     50% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-button {
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 1em;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-
-/* Glowing effect for GPS signal strength */
-#gps-signal::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, red, orange, yellow, green, neon-green);
-    border-radius: 5px;
-    opacity: 0.5;
-    transition: width 0.3s ease;
 }
