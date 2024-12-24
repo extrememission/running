@@ -24,7 +24,16 @@ body {
     margin: 0 auto 20px;
     border: 1px solid #333;
     border-radius: 5px;
-    display: none;
+    position: relative;
+}
+
+#gps-signal-text {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8em;
+    color: #e0e0e0;
 }
 
 #status {
